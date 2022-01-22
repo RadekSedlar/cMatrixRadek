@@ -48,8 +48,38 @@ void extend_by_one(int current_row, int current_col, char *arr){
     }
 }
 
+
+void choose_color(int current_row, int current_col, char *arr){
+
+    if (current_row - 1 >= 0){
+        if (arr[(col * (current_row - 1)) + current_col] == ' ')
+        {
+            attron(COLOR_PAIR(4));
+            return;
+        }
+        
+    }
+    if (current_row - 2 >= 0){
+        if (arr[(col * (current_row - 2)) + current_col] == ' ')
+        {
+            attron(COLOR_PAIR(4));
+            return;
+        }
+    }
+    if (current_row - 3 >= 0){
+        if (arr[(col * (current_row - 3)) + current_col] == ' ')
+        {
+            attron(COLOR_PAIR(3));
+            return;
+        }
+        
+    }
+    attron(COLOR_PAIR(2));
+}
+
 void erase_highest(int current_row, int current_col, char *arr){
 
+    
     int count = 0;
 
     do
@@ -71,7 +101,7 @@ void erase_highest(int current_row, int current_col, char *arr){
 
     } while (true);
     
-    if (count > 7)
+    if (count > (6 + rand() % 2))
     {
         arr[(col * current_row) + current_col] = ' ';
     }
@@ -91,11 +121,19 @@ int main()
         printf("Your terminal does not support color\n");
         exit(1);
     }
+    if (can_change_color() == FALSE) {
+        endwin();
+        printf("Your terminal does not support changing colors\n");
+        exit(1);
+    }
 
     start_color();
-
+    init_color(11, 0, 510, 0);
+    init_color(12, 0, 340, 0);
     init_pair(1, COLOR_YELLOW, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, 11, COLOR_BLACK);
+    init_pair(4, 12, COLOR_BLACK);
     attron(COLOR_PAIR(2));
 
     getmaxyx(stdscr, row, col);
@@ -132,9 +170,12 @@ int main()
 
                 extend_by_one(x, y, char_matrix[0]);
                 erase_highest(x, y, char_matrix[0]);
+                choose_color(x, y, char_matrix[0]);
+                if (char_matrix[x][y] != ' ')
+                {
+                    char_matrix[x][y] = (rand()%4) == 0 ? random_printable() : char_matrix[x][y];
+                }
                 mvprintw(x, y, "%c", char_matrix[x][y]);
-                
-                
             }
         }
 

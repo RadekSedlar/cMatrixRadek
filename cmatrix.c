@@ -161,7 +161,7 @@ int main()
             {
                 if (x == 0)
                 {
-                    if ((rand() % 100) < 2)
+                    if ((rand() % 100) < 4)
                     {
                         char_matrix[x][y] = random_printable();
                     }

@@ -1,5 +1,5 @@
 build:
-	g++ cmatrix.c -lncurses -o cmatrixRadek
+	g++ cmatrix.c -lncurses -o cmatrix
 
-run: cmatrixRadek
-	./cmatrixRadek
+run: cmatrix
+	./cmatrix
